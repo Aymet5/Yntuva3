@@ -1,0 +1,710 @@
+<html><head><base href="blob:https://party.websim.ai/a8a41aa1-12cb-4ecb-add5-6c052230a70f"><!DOCTYPE html>
+<html lang="tyv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Үн - Тыва музыка стриминг сервизи</title>
+    <style>
+        :root {
+            --primary-color: #1DB954;
+            --secondary-color: #191414;
+            --text-color: #FFFFFF;
+            --background-color: #121212;
+            --hover-color: #282828;
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 240px;
+            background-color: var(--secondary-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+        
+        .nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        
+        .nav-menu li {
+            margin-bottom: 15px;
+        }
+        
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-menu i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: var(--hover-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .card:hover {
+            background-color: #3E3E3E;
+            transform: translateY(-5px);
+        }
+        
+        .card-image {
+            width: 160px;
+            height: 160px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .card-description {
+            font-size: 14px;
+            color: #B3B3B3;
+        }
+        
+        .user-profile {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            background-color: var(--hover-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        .user-profile img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .user-profile span {
+            font-size: 14px;
+        }
+        
+        .search-container {
+            margin-bottom: 30px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            background-color: var(--hover-color);
+            color: var(--text-color);
+            font-size: 16px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        
+        .player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--secondary-color);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .player-controls button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 28px;
+            margin: 0 15px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .player-controls button:hover {
+            color: var(--primary-color);
+        }
+        
+        .player-progress {
+            flex-grow: 1;
+            height: 4px;
+            background-color: var(--hover-color);
+            margin: 0 20px;
+            position: relative;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        
+        .player-progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0;
+            border-radius: 2px;
+            position: relative;
+        }
+        
+        .player-progress-bar::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: -3px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: none;
+        }
+        
+        .player-progress:hover .player-progress-bar::after {
+            display: block;
+        }
+        
+        .player-time {
+            font-size: 12px;
+            color: #B3B3B3;
+        }
+        
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .auth-buttons button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .auth-form {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            margin: 0 auto;
+        }
+        
+        .auth-form h2 {
+            margin-bottom: 20px;
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--hover-color);
+            color: var(--text-color);
+        }
+        
+        .auth-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .like-button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .like-button:hover {
+            color: var(--primary-color);
+        }
+        
+        .like-button.active {
+            color: var(--primary-color);
+        }
+        
+        .playlist-tracks {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .playlist-track {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .playlist-track:hover {
+            background-color: var(--hover-color);
+        }
+        
+        .playlist-track img {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        
+        .playlist-track-info {
+            flex-grow: 1;
+        }
+        
+        .playlist-track-title {
+            font-weight: bold;
+        }
+        
+        .playlist-track-artist {
+            font-size: 12px;
+            color: #B3B3B3;
+        }
+        
+        .playlist-track-duration {
+            font-size: 12px;
+            color: #B3B3B3;
+            margin-right: 10px;
+        }
+        
+        .playlist-track-like {
+            margin-left: 10px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div id="sidebar" class="sidebar">
+            <div class="logo">Үн</div>
+            <ul class="nav-menu">
+                <li><a href="#" onclick="loadContent('home')"><i class="material-icons">home</i> Бажың</a></li>
+                <li><a href="#" onclick="loadContent('search')"><i class="material-icons">search</i> Дилээр</a></li>
+                <li><a href="#" onclick="loadContent('library')"><i class="material-icons">library_music</i> Библиотека</a></li>
+                <li><a href="#" onclick="loadContent('playlists')"><i class="material-icons">playlist_play</i> Плейлисттер</a></li>
+                <li><a href="#" onclick="loadContent('artists')"><i class="material-icons">person</i> Ыраажылар</a></li>
+                <li><a href="#" onclick="loadContent('favorites')"><i class="material-icons">favorite</i> Ынак ырылар</a></li>
+            </ul>
+        </div>
+        <div id="mainContent" class="main-content">
+            <!-- Контент будет загружаться сюда -->
+        </div>
+    </div>
+    <div id="authButtons" class="auth-buttons">
+        <button onclick="loadContent('login')">Кирер</button>
+        <button onclick="loadContent('register')">Бүрүткээр</button>
+    </div>
+    <div id="userProfile" class="user-profile" style="display: none;">
+        <img src="https://placeholder.com/30x30?text=А" alt="Ажыглакчының профиль чуруу" width="30" height="30">
+        <span id="username">Ажыглакчы</span>
+    </div>
+    <div class="player">
+        <div class="player-track-info">
+            <img id="playerTrackImage" src="https://placeholder.com/50x50" alt="Трек чуруу" width="50" height="50">
+            <div class="player-track-details">
+                <span id="playerTrackTitle" class="player-track-title">Трек ады</span>
+                <span id="playerTrackArtist" class="player-track-artist">Ыраажы ады</span>
+            </div>
+        </div>
+        <div class="player-controls">
+            <button onclick="previousTrack()"><i class="material-icons">skip_previous</i></button>
+            <button onclick="togglePlay()"><i id="playPauseIcon" class="material-icons">play_arrow</i></button>
+            <button onclick="nextTrack()"><i class="material-icons">skip_next</i></button>
+        </div>
+        <div class="player-progress">
+            <div id="progressBar" class="player-progress-bar"></div>
+        </div>
+        <div class="player-time">
+            <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+        </div>
+        <button id="playerLikeButton" class="like-button" onclick="toggleLikeCurrentTrack()">
+            <i class="material-icons">favorite_border</i>
+        </button>
+    </div>
+
+    <script>
+        let isLoggedIn = false;
+        let favorites = [];
+
+        function loadContent(page) {
+            const mainContent = document.getElementById('mainContent');
+            switch(page) {
+                case 'home':
+                    mainContent.innerHTML = `
+                        <h1>Экии, ${isLoggedIn ? document.getElementById('username').textContent : 'аалчы'}!</h1>
+                        <div class="section">
+                            <h2 class="section-title">Сеңээ таарыштыр</h2>
+                            <div class="card-grid">
+                                ${createCard('Тыва хөөмей', 'Хөөмейниң эң-не эки ырлары', 'tyva-khoomei.jpg')}
+                                ${createCard('Амгы үениң ырылары', 'Тываның аныяк салгалының ырлары', 'amgy-uenin-yrylary.jpg')}
+                                ${createCard('Тыва рок', 'Тываның рок бөлүктериниң эң эки ырлары', 'tyva-rock.jpg')}
+                            </div>
+                        </div>
+                        <div class="section">
+                            <h2 class="section-title">Чоокта чаа дыңнаан</h2>
+                            <div class="card-grid">
+                                ${createCard('Саян Бапа', 'Хөөмейжи', 'sayan-bapa.jpg')}
+                                ${createCard('Ят-Ха', 'Тыва рок бөлүк', 'yat-kha.jpg')}
+                                ${createCard('Артыш Кара-оол', 'Амгы үениң ыраажызы', 'artysh-kara-ool.jpg')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'search':
+                    mainContent.innerHTML = `
+                        <h1>Дилээр</h1>
+                        <div class="search-container">
+                            <input type="text" class="search-input" placeholder="Ыраажы, ыры азы альбом дилээр...">
+                        </div>
+                        <div class="section">
+                            <h2 class="section-title">Чүүлдер</h2>
+                            <div class="card-grid">
+                                ${createCard('Хөөмей', 'Тыва хөөмейниң эң эки үлегерлери', 'khoomei.jpg')}
+                                ${createCard('Рок', 'Тыва рок музыказының чыындызы', 'rock.jpg')}
+                                ${createCard('Чоннуң ыры', 'Тыва чоннуң ырларының эң эки чыындызы', 'chonnun-yry.jpg')}
+                                ${createCard('Амгы үе', 'Амгы үениң тыва ыраажыларының чыындызы', 'amgy-ue.jpg')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'library':
+                    if (isLoggedIn) {
+                        mainContent.innerHTML = `
+                            <h1>Сээң библиотекаң</h1>
+                            <div class="section">
+                                <h2 class="section-title">Чоокта чаа дыңнаан альбомнар</h2>
+                                <div class="card-grid">
+                                    ${createCard('Алаш Топ', 'Ят-Ха', 'alash-top.jpg')}
+                                    ${createCard('Песни Степных Рек', 'Саян Бапа', 'pesni-stepnyh-rek.jpg')}
+                                    ${createCard('Тувинские Кавер-Версии', 'Артыш Кара-оол', 'tuvinskie-kaver-versii.jpg')}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        mainContent.innerHTML = `
+                            <h1>Библиотека</h1>
+                            <p>Библиотеканы көөр дээш, бүрүткенип алыңар азы кириңер.</p>
+                        `;
+                    }
+                    break;
+                case 'playlists':
+                    mainContent.innerHTML = `
+                        <h1>Плейлисттер</h1>
+                        <div class="card-grid">
+                            ${createCard('Тыва хөөмей', 'Тываның эң-не эки хөөмейжилериниң ырлары', 'tyva-khoomei-playlist.jpg')}
+                            ${createCard('Амгы үениң ырылары', 'Тываның аныяк салгалының ырлары', 'amgy-uenin-yrylary-playlist.jpg')}
+                            ${createCard('Тыва рок', 'Тываның рок бөлүктериниң эң эки ырлары', 'tyva-rock-playlist.jpg')}
+                            ${createCard('Чоннуң ырлары', 'Тываның төөгүлүг болгаш чоннуң ырлары', 'chonnun-yrlary-playlist.jpg')}
+                        </div>
+                    `;
+                    break;
+                case 'artists':
+                    mainContent.innerHTML = `
+                        <h1>Ыраажылар</h1>
+                        <div class="card-grid">
+                            ${createCard('Саян Бапа', 'Хөөмей, Чаңгы-хөөмей', 'sayan-bapa-artist.jpg')}
+                            ${createCard('Ят-Ха', 'Тыва рок, Этно-рок', 'yat-kha-artist.jpg')}
+                            ${createCard('Артыш Кара-оол', 'Амгы үениң ыры', 'artysh-kara-ool-artist.jpg')}
+                            ${createCard('Команда Ондар', 'Хөөмей, Уругларның ыры', 'komanda-ondar-artist.jpg')}
+                        </div>
+                    `;
+                    break;
+                case 'favorites':
+                    mainContent.innerHTML = `
+                        <h1>Ынак ырылар</h1>
+                        <ul class="playlist-tracks">
+                            ${favorites.map(fav => `
+                                <li class="playlist-track">
+                                    <img src="https://example.com/images/${fav.image}" alt="${fav.track}" width="40" height="40">
+                                    <div class="playlist-track-info">
+                                        <div class="playlist-track-title">${fav.track}</div>
+                                        <div class="playlist-track-artist">${fav.artist}</div>
+                                    </div>
+                                    <button class="like-button active" onclick="removeFromFavorites('${fav.track}')">
+                                        <i class="material-icons">favorite</i>
+                                    </button>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    `;
+                    break;
+                case 'login':
+                    mainContent.innerHTML = `
+                        <div class="auth-form">
+                            <h2>Кирер</h2>
+                            <input type="text" placeholder="Э-почта адрезиңер" id="loginEmail">
+                            <input type="password" placeholder="Чажыт сөзүңер" id="loginPassword">
+                            <button onclick="login()">Кирер</button>
+                        </div>
+                    `;
+                    break;
+                case 'register':
+                    mainContent.innerHTML = `
+                        <div class="auth-form">
+                            <h2>Бүрүткээр</h2>
+                            <input type="text" placeholder="Адыңар" id="registerName">
+                            <input type="text" placeholder="Э-почта адрезиңер" id="registerEmail">
+                            <input type="password" placeholder="Чажыт сөзүңер" id="registerPassword">
+                            <button onclick="register()">Бүрүткээр</button>
+                        </div>
+                    `;
+                    break;
+            }
+        }
+
+        function createCard(title, description, image) {
+            return `
+                <div class="card" onclick="openPlaylist('${title}')">
+                    <img src="https://example.com/images/${image}" alt="${title}" class="card-image" width="160" height="160">
+                    <div class="card-title">${title}</div>
+                    <div class="card-description">${description}</div>
+                </div>
+            `;
+        }
+
+        function openPlaylist(playlistTitle) {
+            const tracks = generatePlaylistTracks(playlistTitle);
+            const mainContent = document.getElementById('mainContent');
+            mainContent.innerHTML = `
+                <h1>${playlistTitle}</h1>
+                <ul class="playlist-tracks">
+                    ${tracks.map((track, index) => `
+                        <li class="playlist-track">
+                            <img src="https://example.com/images/${track.image}" alt="${track.title}" width="40" height="40">
+                            <div class="playlist-track-info">
+                                <div class="playlist-track-title">${track.title}</div>
+                                <div class="playlist-track-artist">${track.artist}</div>
+                            </div>
+                            <div class="playlist-track-duration">${track.duration}</div>
+                            <button class="like-button playlist-track-like" onclick="toggleLike('${track.title}', '${track.artist}', '${track.image}')">
+                                <i class="material-icons">${favorites.some(fav => fav.track === track.title) ? 'favorite' : 'favorite_border'}</i>
+                            </button>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+        }
+
+        function generatePlaylistTracks(playlistTitle) {
+            // Здесь мы генерируем фиктивные треки для плейлиста
+            const tracks = [
+                { title: "Хөөмей күүзү", artist: "Саян Бапа", duration: "3:45", image: "sayan-bapa-track1.jpg" },
+                { title: "Кыш бажы", artist: "Ят-Ха", duration: "4:12", image: "yat-kha-track1.jpg" },
+                { title: "Тувам", artist: "Артыш Кара-оол", duration: "3:58", image: "artysh-kara-ool-track1.jpg" },
+                { title: "Хөөмейжи", artist: "Команда Ондар", duration: "4:30", image: "komanda-ondar-track1.jpg" },
+                { title: "Чаяна", artist: "Саян Бапа", duration: "3:22", image: "sayan-bapa-track2.jpg" }
+            ];
+            return tracks;
+        }
+
+        let isPlaying = false;
+        let currentTrack = '';
+        let currentArtist = '';
+        let currentImage = '';
+
+        function playTrack(track, artist, image) {
+            currentTrack = track;
+            currentArtist = artist;
+            currentImage = image;
+            isPlaying = true;
+            updatePlayerUI();
+        }
+
+        function togglePlay() {
+            if (currentTrack) {
+                isPlaying = !isPlaying;
+                updatePlayerUI();
+            }
+        }
+
+        function previousTrack() {
+            console.log('Переключение на предыдущий трек');
+        }
+
+        function nextTrack() {
+            console.log('Переключение на следующий трек');
+        }
+
+        function updatePlayerUI() {
+            const playPauseIcon = document.getElementById('playPauseIcon');
+            const progressBar = document.getElementById('progressBar');
+            const currentTimeEl = document.getElementById('currentTime');
+            const totalTimeEl = document.getElementById('totalTime');
+            const playerTrackTitle = document.getElementById('playerTrackTitle');
+            const playerTrackArtist = document.getElementById('playerTrackArtist');
+            const playerTrackImage = document.getElementById('playerTrackImage');
+
+            playerTrackTitle.textContent = currentTrack;
+            playerTrackArtist.textContent = currentArtist;
+            playerTrackImage.src = `https://example.com/images/${currentImage}`;
+            playerTrackImage.alt = currentTrack;
+
+            if (isPlaying) {
+                playPauseIcon.textContent = 'pause';
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 1;
+                    progressBar.style.width = `${progress}%`;
+                    currentTimeEl.textContent = formatTime(progress * 3);
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        isPlaying = false;
+                        updatePlayerUI();
+                    }
+                }, 1000);
+            } else {
+                playPauseIcon.textContent = 'play_arrow';
+            }
+
+            totalTimeEl.textContent = '5:00';
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            console.log(`Выполняется вход: ${email}`);
+            
+            isLoggedIn = true;
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'flex';
+            document.getElementById('username').textContent = email.split('@')[0];
+            loadContent('home');
+        }
+
+        function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            console.log(`Регистрация нового пользователя: ${name}, ${email}`);
+            
+            isLoggedIn = true;
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'flex';
+            document.getElementById('username').textContent = name;
+            loadContent('home');
+        }
+
+        function toggleLikeCurrentTrack() {
+            toggleLike(currentTrack, currentArtist, currentImage);
+        }
+
+        function toggleLike(track, artist, image) {
+            const index = favorites.findIndex(fav => fav.track === track);
+            if (index === -1) {
+                favorites.push({ track, artist, image });
+            } else {
+                favorites.splice(index, 1);
+            }
+            updateLikeButtons(track);
+        }
+
+        function updateLikeButtons(track) {
+            const likeButtons = document.querySelectorAll('.like-button');
+            likeButtons.forEach(button => {
+                const icon = button.querySelector('i');
+                if (favorites.some(fav => fav.track === track)) {
+                    icon.textContent = 'favorite';
+                    button.classList.add('active');
+                } else {
+                    icon.textContent = 'favorite_border';
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        function removeFromFavorites(track) {
+            favorites = favorites.filter(fav => fav.track !== track);
+            loadContent('favorites');
+        }
+
+        loadContent('home');
+    </script>
+</body>
+</html>
